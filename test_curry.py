@@ -68,5 +68,13 @@ class TestCurry(unittest.TestCase):
         add_default = curry(lambda a, b=10: a + b)
         self.assertEqual(3, add_default(1)(2))
 
+    def test_shortcut_to_defaults(self):
+        def func_with_defaults(a, b, c=10, d=20):
+            return a, b, c, d
+
+        f = curry(func_with_defaults)
+        self.assertEqual(f(1, 2)(),
+                         (1, 2, 10, 20))
+
 if __name__ == '__main__':
     unittest.main()

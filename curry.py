@@ -21,6 +21,9 @@ class _CurriedFactory:
     def __call__(self, *new_args, **new_kwargs):
         next_curried = self.create_next_curried(new_args, new_kwargs)
 
+        if not new_args and not new_kwargs:
+            # Call with no arguments to shortcut currying
+            return next_curried.call_with_arguments()
         if next_curried.has_enough_args():
             return next_curried.call_with_arguments()
         else:
@@ -51,5 +54,5 @@ class _CurriedFactory:
     def call_with_arguments(self):
         return self.fun(*self.args, **self.kwargs)
 
-curry = _CurriedFactory
 
+curry = _CurriedFactory
